@@ -1,23 +1,19 @@
 import logging
 
-from openupgradelib import openupgrade
-
 from odoo.tools.sql import column_exists
 
 _logger = logging.getLogger(__name__)
 
 
-@openupgrade.migrate()
-def migrate(env, version):
+def migrate(cr, version):
     _logger.info(
         "Starting migration: checking for 'reception_status' column in 'purchase_order'"
     )
-    if column_exists(env.cr, "purchase_order", "reception_status"):
+    if column_exists(cr, "purchase_order", "reception_status"):
         _logger.info("'reception_status' column found. Applying data migration")
         mapping_status = {"no": "pending", "partial": "partial", "received": "full"}
         for old_val, new_val in mapping_status.items():
-            openupgrade.logged_query(
-                env.cr,
+            cr.execute(
                 """
                 UPDATE purchase_order
                 SET receipt_status = %s

@@ -12,7 +12,6 @@
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/purchase-workflow",
     "depends": ["purchase_stock"],
-    "external_dependencies": {"python": ["openupgradelib"]},
     "data": ["views/purchase_order.xml"],
     "installable": True,
 }
